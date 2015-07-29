@@ -9,13 +9,19 @@
  */
 angular.module('bdayApp')
   .controller('MainCtrl', function ($scope) {
+    $scope.maxDate = new Date();
     $scope.calculateBirthday = function(date, mode) {
         var millisPerYear = 1000 * 60 * 60 * 24 * 365;
         if (mode === 'day'){
             var dayToCheck = new Date(date).setHours(0,0,0,0);
             var today = new Date();
             var millisDelta = today - dayToCheck;
-            $scope.yearsAlive = Math.floor(millisDelta / millisPerYear) + 1;
+
+            if (millisDelta < millisPerYear) {
+                $scope.yearsAlive = 0;
+            } else {
+                $scope.yearsAlive = Math.floor(millisDelta / millisPerYear);
+            }
 
             if ($scope.yearsAlive < 13) {
                 $scope.birthdayAmount = '1 day';
