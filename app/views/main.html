@@ -1,23 +1,12 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
+<section ng-init="dt=false">
+  <h1>How Much Birthday<br>Do You Deserve?</h1>
+  <div style="display:inline-block; min-height:290px;">
+    <datepicker ng-model="dt" datepicker-mode="year" show-weeks="false" custom-class="calculateBirthday(date, mode)" class="well well-sm"></datepicker>
+  </div>
+  <p ng-if="dt">Your birthday is: {{dt | date:'fullDate' }}. This year you will be {{yearsAlive}} years old.</p>
+</section>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
+<section ng-if="dt">
+  <h2>You have earned</h2>
+  <p class="lead">{{birthdayAmount}} of birthday.</p>
+</section>
