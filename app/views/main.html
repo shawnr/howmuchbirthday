@@ -1,7 +1,7 @@
 <section ng-init="dt=false">
   <h1>How Much Birthday<br>Do You Deserve?</h1>
   <div style="display:inline-block; min-height:290px;">
-    <datepicker ng-model="dt" datepicker-mode="year" max-date="maxDate" show-weeks="false" custom-class="calculateBirthday(date, mode)" class="well well-sm"></datepicker>
+    <datepicker ng-model="dt" datepicker-mode="'year'" max-date="maxDate" show-weeks="false" custom-class="calculateBirthday(date, mode)" class="well well-sm"></datepicker>
   </div>
   <p ng-if="dt">Your birthday is: {{dt | date:'fullDate' }}. On your next birthday you will be {{yearsAlive + 1}} years old.</p>
 </section>
