@@ -10,6 +10,7 @@
  */
 angular
   .module('bdayApp', [
+    'djds4rce.angular-socialshare',
     'ngAnimate',
     'ngAria',
     'ngCookies',
@@ -20,7 +21,8 @@ angular
     'ngTouch',
     'ui.bootstrap'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
+    $locationProvider.html5Mode(true).hashPrefix('!');
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -35,4 +37,6 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  }).run(function($FB){
+    $FB.init('422911421228107');
   });

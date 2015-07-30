@@ -1,12 +1,72 @@
-<section ng-init="dt=false">
-  <h1>How Much Birthday<br>Do You Deserve?</h1>
-  <div style="display:inline-block; min-height:290px;">
-    <datepicker ng-model="dt" datepicker-mode="'year'" max-date="maxDate" show-weeks="false" custom-class="calculateBirthday(date, mode)" class="well well-sm"></datepicker>
+<section>
+  <h1>How Much Birthday Do You Deserve?</h1>
+  <div class="row">
+    <div class="col-sm-6 when">
+      <h2>When were you born?</h2>
+      <p class="lead">Select your birth date using this calendar.</p>
+    </div>
+    <div class="col-sm-6">
+      <div style="display:inline-block; min-height:290px;">
+        <datepicker ng-model="dt" datepicker-mode="'year'" max-date="maxDate" show-weeks="false" custom-class="calculateBirthday(date, mode)" class="well well-sm"></datepicker>
+      </div>
+    </div>
   </div>
-  <p ng-if="dt">Your birthday is: {{dt | date:'fullDate' }}. On your next birthday you will be {{yearsAlive + 1}} years old.</p>
 </section>
 
 <section ng-if="dt">
-  <h2>You have earned</h2>
-  <p class="lead">{{birthdayAmount}} of birthday.</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <h2>You have earned</h2>
+      <p class="lead">{{birthdayAmount}} of birthday.</p>
+    </div>
+    <div class="col-sm-6">
+      <p ng-if="dt">Your birthday is: {{dt | date:'fullDate' }}. On your next birthday you will be {{yearsAlive + 1}} years old.</p>
+    </div>
+  </div>
+  <p>
+    <a
+      facebook-feed-share
+      class="facebookShare"
+      data-url='http://howmuchbirthday.com'
+      data-shares='shares'
+      data-picture='http://howmuchbirthday.com/images/birthdayCake.jpg'
+      data-description="I earned {{birthdayAmount}} of birthday this year! How much birthday have you earned?">{{ shares }}
+    </a>&nbsp;
+
+    <a twitter
+      data-lang="en"
+      data-count='horizontal'
+      data-url='http://howmuchbirthday.com'
+      data-via='howmuchbirthday'
+      data-size="medium"
+      data-text='I earned {{birthdayAmount}} of birthday this year! How much birthday have you earned?' >
+    </a>&nbsp;
+
+    <div linkedin
+      class="linkedinShare"
+      data-url='http://howmuchbirthday.com'
+      data-title='How Much Birthday Have You Earned?'
+      data-summary="I earned {{birthdayAmount}} of birthday this year! How much birthday have you earned?"
+      data-shares='linkedinshares'>{{linkedinshares}}
+    </div>
+
+     <div gplus
+      class="g-plus"
+      data-size="tall"
+      data-annotation="bubble"
+      data-href='http://howmuchbirthday.com'
+      data-action='share'>
+    </div>
+
+    <div tumblr-text
+      data-url='http://howmuchbirthday.com'
+      data-name='How Much Birthday Have You Earned?'
+      data-title='Share Your Results'
+      data-buttontext='Sharing Text'
+      data-styling="display:inline-block; text-indent:-9999px; overflow:hidden; width:129px; height:20px; background:url('http://platform.tumblr.com/v1/share_3.png') top left no-repeat transparent;"
+      data-description='I earned {{birthdayAmount}} of birthday this year! How much birthday have you earned?'>
+    </div>
+
+
+  </p>
 </section>
