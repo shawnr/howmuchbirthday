@@ -10,6 +10,8 @@
  */
 angular
   .module('bdayApp', [
+    'angulartics',
+    'angulartics.google.analytics',
     'djds4rce.angular-socialshare',
     'ngAnimate',
     'ngAria',
