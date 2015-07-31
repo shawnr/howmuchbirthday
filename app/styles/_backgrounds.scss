@@ -1,0 +1,55 @@
+// Background Patterns
+// Published here: // http://lea.verou.me/css3patterns/
+.brady {
+    background-image:
+        radial-gradient(closest-side, transparent 0%, transparent 75%, #B6CC66 76%, #B6CC66 85%, #EDFFDB 86%, #EDFFDB 94%, #FFFFFF 95%, #FFFFFF 103%, #D9E6A7 104%, #D9E6A7 112%, #798B3C 113%, #798B3C 121%, #FFFFFF 122%, #FFFFFF 130%, #E0EAD7 131%, #E0EAD7 140%),
+        radial-gradient(closest-side, transparent 0%, transparent 75%, #B6CC66 76%, #B6CC66 85%, #EDFFDB 86%, #EDFFDB 94%, #FFFFFF 95%, #FFFFFF 103%, #D9E6A7 104%, #D9E6A7 112%, #798B3C 113%, #798B3C 121%, #FFFFFF 122%, #FFFFFF 130%, #E0EAD7 131%, #E0EAD7 140%);
+    background-size: 110px 110px;
+    background-color: #C8D3A7;
+    background-position: 0 0, 55px 55px;
+}
+
+.hearts {
+    background:
+        radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187,0,51,0) 27%),
+        radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187,0,51,0) 27%),
+        radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221,51,85,0) 46%),
+        radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221,51,85,0) 46%),
+        radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221,51,85,0) 31%),
+        radial-gradient(circle closest-side at 60% 43%, #b03 26%, rgba(187,0,51,0) 27%) 50px 50px,
+        radial-gradient(circle closest-side at 40% 43%, #b03 26%, rgba(187,0,51,0) 27%) 50px 50px,
+        radial-gradient(circle closest-side at 40% 22%, #d35 45%, rgba(221,51,85,0) 46%) 50px 50px,
+        radial-gradient(circle closest-side at 60% 22%, #d35 45%, rgba(221,51,85,0) 46%) 50px 50px,
+        radial-gradient(circle closest-side at 50% 35%, #d35 30%, rgba(221,51,85,0) 31%) 50px 50px;
+    background-color:#b03;
+    background-size:100px 100px;
+}
+
+.vert-stripes {
+    background-color: pink;
+    background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,.5) 50%);
+    background-size: 50px 50px;
+}
+
+.diag-stripes {
+    background-color: pink;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+}
+
+.cicada-stripes {
+    background-color: #026873;
+    background-image:
+        linear-gradient(90deg, rgba(255,255,255,.07) 50%, transparent 50%),
+        linear-gradient(90deg, rgba(255,255,255,.13) 50%, transparent 50%),
+        linear-gradient(90deg, transparent 50%, rgba(255,255,255,.17) 50%),
+        linear-gradient(90deg, transparent 50%, rgba(255,255,255,.19) 50%);
+    background-size: 13px, 29px, 37px, 53px;
+}
+
+.gingham {
+    background-color:white;
+    background-image:
+        linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 50%),
+        linear-gradient(rgba(200,0,0,.5) 50%, transparent 50%);
+    background-size:50px 50px;
+}

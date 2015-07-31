@@ -1,4 +1,4 @@
-<section>
+<section class="when">
   <h1>How Much Birthday Do You Deserve?</h1>
   <div class="row">
     <div class="col-sm-6 when">
@@ -13,14 +13,14 @@
   </div>
 </section>
 
-<section ng-if="dt">
+<section ng-if="dt" class="earned">
   <div class="row">
     <div class="col-sm-6">
       <h2>You have earned</h2>
       <p class="lead">{{birthdayAmount}} of birthday.</p>
     </div>
     <div class="col-sm-6">
-      <p ng-if="dt">Your birthday is: {{dt | date:'fullDate' }}. On your next birthday you will be {{yearsAlive + 1}} years old.</p>
+      <p ng-if="dt">Your birthday is: {{dt | date:'fullDate' }}. On your next birthday you will be {{yearsAlive + 1}} years {{oldYoung}}.</p>
     </div>
   </div>
   <p>

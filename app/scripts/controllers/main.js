@@ -10,6 +10,7 @@
 angular.module('bdayApp')
   .controller('MainCtrl', function ($scope, $analytics) {
     $scope.maxDate = new Date();
+    $scope.oldYoung = "old";
     $scope.calculateBirthday = function(date, mode) {
         var millisPerYear = 1000 * 60 * 60 * 24 * 365;
         if (mode === 'day'){
@@ -21,6 +22,12 @@ angular.module('bdayApp')
                 $scope.yearsAlive = 0;
             } else {
                 $scope.yearsAlive = Math.floor(millisDelta / millisPerYear);
+            }
+
+            if ($scope.yearsAlive < 40){
+                $scope.oldYoung = "old";
+            } else {
+                $scope.oldYoung = "young";
             }
 
             if ($scope.yearsAlive < 13) {
