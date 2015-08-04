@@ -11,6 +11,8 @@ angular.module('bdayApp')
   .controller('MainCtrl', function ($scope, $analytics) {
     $scope.maxDate = new Date();
     $scope.oldYoung = "old";
+    $scope.dateSelected = false;
+
     $scope.calculateBirthday = function(date, mode) {
         var millisPerYear = 1000 * 60 * 60 * 24 * 365;
         if (mode === 'day'){
@@ -77,5 +79,5 @@ angular.module('bdayApp')
                 $analytics.eventTrack('submittedBday', {  category: '12 Months', label: $scope.yearsAlive });
             }
         }
-    }
+    };
   });

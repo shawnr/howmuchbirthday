@@ -1,17 +1,4 @@
-<section class="when">
-  <h1>How Much Birthday Do You Deserve?</h1>
-  <div class="row">
-    <div class="col-sm-6 when">
-      <h2>When were you born?</h2>
-      <p class="lead">Select your birth date using this calendar.</p>
-    </div>
-    <div class="col-sm-6">
-      <div style="display:inline-block; min-height:290px;">
-        <datepicker ng-model="dt" datepicker-mode="'year'" max-date="maxDate" show-weeks="false" custom-class="calculateBirthday(date, mode)" class="well well-sm"></datepicker>
-      </div>
-    </div>
-  </div>
-</section>
+<h1>How Much Birthday Do You Deserve?</h1>
 
 <section ng-if="dt" class="earned">
   <div class="row">
@@ -69,4 +56,18 @@
 
 
   </p>
+</section>
+
+<section class="when">
+  <div class="row">
+    <div class="col-sm-6 when">
+      <h2>When were you born?</h2>
+      <p class="lead">Select your birth date using this calendar.</p>
+    </div>
+    <div class="col-sm-6">
+      <div style="display:inline-block; min-height:290px;">
+        <datepicker ng-model="dt" datepicker-mode="'year'" max-date="maxDate" show-weeks="false" custom-class="calculateBirthday(date, mode)" class="well well-sm"></datepicker>
+      </div>
+    </div>
+  </div>
 </section>
