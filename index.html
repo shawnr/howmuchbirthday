@@ -580,18 +580,21 @@
     }
 
     .emergency-warning {
-      margin-top: 16px;
-      padding: 14px;
-      background: rgba(255, 82, 82, 0.06);
-      border: 1px solid rgba(255, 82, 82, 0.12);
-      border-radius: 8px;
-      font-size: 0.75rem;
+      margin-top: 0;
+      padding: 0;
+      font-size: 0.78rem;
       color: #c07070;
       line-height: 1.6;
       display: none;
     }
 
     .emergency-warning.visible { display: block; }
+
+    .emergency-warning hr {
+      border: none;
+      border-top: 1px solid rgba(255, 82, 82, 0.2);
+      margin: 14px 0;
+    }
 
     .emergency-warning strong {
       color: #e07070;
@@ -810,7 +813,7 @@
           <label class="toggle"><input type="checkbox" data-bonus="2"><span class="toggle-track"></span></label>
         </div>
         <div class="question">
-          <span class="question-text">3. Have you ever blown out someone else's birthday candles?</span>
+          <span class="question-text">3. Did you blow out someone else's birthday candles this year?</span>
           <label class="toggle"><input type="checkbox" data-bonus="-2"><span class="toggle-track"></span></label>
         </div>
         <div class="question">
@@ -865,27 +868,28 @@
         <div class="emergency">
           <div class="emergency-title">Request for Emergency Birthday Override</div>
           <div class="question">
-            <span class="question-text">Look, this year has just been really, really hard and I need something to hold onto.</span>
+            <span class="question-text">Look, this year has just been really, really hard and I need something good to happen.</span>
             <label class="toggle"><input type="checkbox" id="emergencyToggle" data-bonus="3"><span class="toggle-track"></span></label>
           </div>
 
           <div class="emergency-warning" id="emergencyWarning">
+            <hr>
             <strong>OFFICIAL NOTICE FROM THE BIRTHDAY BUREAU</strong><br><br>
-            The Emergency Birthday Override is a sacred instrument reserved for individuals experiencing genuine hardship. Filing a fraudulent Override request is a Class 1 Birthday Offense punishable by measures up to and including the <strong>permanent revocation of all future birthday celebrations</strong>. The Bureau will take your birthday away. You will age, but you will not celebrate. Your friends will eat cake near you but not with you.<br><br>
+            The Emergency Birthday Override is a sacred instrument reserved for individuals experiencing genuine hardship. Filing a fraudulent Override request is a Class 1 Birthday Offense punishable by measures up to and including the <strong>permanent revocation of all future birthday celebrations</strong>. (Yes, we will take your birthday away.) You will age, but you will not celebrate. Your friends will eat cake near you but not with you.<br><br>
             To proceed, you must complete ALL of the following attestations:
 
             <div class="emergency-assertions">
               <label class="assertion">
                 <input type="checkbox" id="assertCheck1">
-                <span>I solemnly swear that this year has, in fact, been really hard and I am not just trying to game the system for extra birthday.</span>
+                <span>I solemnly swear that this year has, in fact, been a complete trash fire rolling downhill into flammable sewage. No joke.</span>
               </label>
               <label class="assertion">
                 <input type="checkbox" id="assertCheck2">
                 <span>I understand that dishonesty on this form may result in the complete and irreversible cancellation of my birthday, past, present, and future.</span>
               </label>
               <div class="assertion" style="flex-direction: column;">
-                <span>Type your full name below to confirm you accept these terms:</span>
-                <input type="text" class="assertion-text-input" id="assertName" placeholder="Your full legal birthday name" autocomplete="off">
+                <span>Type your birthday name below to confirm you accept these terms:</span>
+                <input type="text" class="assertion-text-input" id="assertName" placeholder="Your birthday name." autocomplete="off">
               </div>
             </div>
           </div>
