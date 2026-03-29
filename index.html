@@ -546,6 +546,101 @@
 
     .modal-submit:hover { opacity: 0.9; }
     .modal-submit:active { transform: scale(0.98); }
+    .modal-submit:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* ── Emergency Override ── */
+    .emergency {
+      margin-top: 28px;
+      padding: 20px;
+      border-radius: 12px;
+      background: linear-gradient(160deg, rgba(255, 82, 82, 0.08), rgba(255, 138, 101, 0.05));
+      border: 1px solid rgba(255, 82, 82, 0.2);
+    }
+
+    .emergency-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e07070;
+      margin-bottom: 12px;
+    }
+
+    .emergency .question {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .emergency .question-text {
+      font-style: italic;
+      color: var(--text-dim);
+    }
+
+    .emergency-warning {
+      margin-top: 16px;
+      padding: 14px;
+      background: rgba(255, 82, 82, 0.06);
+      border: 1px solid rgba(255, 82, 82, 0.12);
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: #c07070;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .emergency-warning.visible { display: block; }
+
+    .emergency-warning strong {
+      color: #e07070;
+      font-weight: 700;
+    }
+
+    .emergency-assertions {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .assertion {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .assertion input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: #e07070;
+      flex-shrink: 0;
+    }
+
+    .assertion-text-input {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: var(--dark);
+      border: 1px solid rgba(255, 82, 82, 0.2);
+      border-radius: 8px;
+      color: var(--text);
+      transition: border-color 0.3s;
+    }
+
+    .assertion-text-input:focus {
+      outline: none;
+      border-color: #e07070;
+    }
+
+    .assertion-text-input::placeholder {
+      color: #605060;
+    }
 
     /* Churning animation */
     .churning {
@@ -767,6 +862,35 @@
           <label class="toggle"><input type="checkbox" data-bonus="1"><span class="toggle-track"></span></label>
         </div>
 
+        <div class="emergency">
+          <div class="emergency-title">Request for Emergency Birthday Override</div>
+          <div class="question">
+            <span class="question-text">Look, this year has just been really, really hard and I need something to hold onto.</span>
+            <label class="toggle"><input type="checkbox" id="emergencyToggle" data-bonus="3"><span class="toggle-track"></span></label>
+          </div>
+
+          <div class="emergency-warning" id="emergencyWarning">
+            <strong>OFFICIAL NOTICE FROM THE BIRTHDAY BUREAU</strong><br><br>
+            The Emergency Birthday Override is a sacred instrument reserved for individuals experiencing genuine hardship. Filing a fraudulent Override request is a Class 1 Birthday Offense punishable by measures up to and including the <strong>permanent revocation of all future birthday celebrations</strong>. The Bureau will take your birthday away. You will age, but you will not celebrate. Your friends will eat cake near you but not with you.<br><br>
+            To proceed, you must complete ALL of the following attestations:
+
+            <div class="emergency-assertions">
+              <label class="assertion">
+                <input type="checkbox" id="assertCheck1">
+                <span>I solemnly swear that this year has, in fact, been really hard and I am not just trying to game the system for extra birthday.</span>
+              </label>
+              <label class="assertion">
+                <input type="checkbox" id="assertCheck2">
+                <span>I understand that dishonesty on this form may result in the complete and irreversible cancellation of my birthday, past, present, and future.</span>
+              </label>
+              <div class="assertion" style="flex-direction: column;">
+                <span>Type your full name below to confirm you accept these terms:</span>
+                <input type="text" class="assertion-text-input" id="assertName" placeholder="Your full legal birthday name" autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+
         <button class="modal-submit" id="modalSubmit">Submit Appeal to the Birthday Bureau</button>
       </div>
 
@@ -892,6 +1016,36 @@
     var verdictNewTotal = document.getElementById('verdictNewTotal');
     var verdictRetry = document.getElementById('verdictRetry');
 
+    var emergencyToggle = document.getElementById('emergencyToggle');
+    var emergencyWarning = document.getElementById('emergencyWarning');
+    var assertCheck1 = document.getElementById('assertCheck1');
+    var assertCheck2 = document.getElementById('assertCheck2');
+    var assertName = document.getElementById('assertName');
+
+    // ── Emergency Override logic ──
+    function validateSubmit() {
+      if (emergencyToggle.checked) {
+        var valid = assertCheck1.checked && assertCheck2.checked && assertName.value.trim().length > 0;
+        modalSubmit.disabled = !valid;
+      } else {
+        modalSubmit.disabled = false;
+      }
+    }
+
+    emergencyToggle.addEventListener('change', function () {
+      if (this.checked) {
+        emergencyWarning.classList.add('visible');
+        validateSubmit();
+      } else {
+        emergencyWarning.classList.remove('visible');
+        modalSubmit.disabled = false;
+      }
+    });
+
+    assertCheck1.addEventListener('change', validateSubmit);
+    assertCheck2.addEventListener('change', validateSubmit);
+    assertName.addEventListener('input', validateSubmit);
+
     // Set max date to today
     var today = new Date();
     birthdayInput.max = today.toISOString().split('T')[0];
@@ -946,6 +1100,9 @@
       // Reset form
       var checkboxes = modalForm.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach(function (cb) { cb.checked = false; });
+      assertName.value = '';
+      emergencyWarning.classList.remove('visible');
+      modalSubmit.disabled = false;
       modalForm.classList.remove('hidden');
       churning.classList.remove('active');
       modalOverlay.classList.add('open');
@@ -986,23 +1143,41 @@
       'Almost done\u2026'
     ];
 
+    var emergencyChurningMessages = [
+      'Reviewing your case\u2026',
+      'Consulting the Birthday Bureau\u2026',
+      'Flagging emergency override request\u2026',
+      'Verifying attestation signatures\u2026',
+      'Confirming identity with birthday records\u2026',
+      'Consulting with the Chief Birthday Officer\u2026',
+      'Reviewing hardship documentation\u2026',
+      'Cross-referencing with the Department of Cake\u2026',
+      'Override request under final review\u2026',
+      'Almost done\u2026'
+    ];
+
     // ── Submit appeal ──
     modalSubmit.addEventListener('click', function () {
+      if (modalSubmit.disabled) return;
+
+      var isEmergency = emergencyToggle.checked;
+
       modalForm.classList.add('hidden');
       churning.classList.add('active');
 
       // Cycle through churning messages
+      var messages = isEmergency ? emergencyChurningMessages : churningMessages;
       var msgIndex = 0;
-      churningText.textContent = churningMessages[0];
+      churningText.textContent = messages[0];
       var msgInterval = setInterval(function () {
         msgIndex++;
-        if (msgIndex < churningMessages.length) {
-          churningText.textContent = churningMessages[msgIndex];
+        if (msgIndex < messages.length) {
+          churningText.textContent = messages[msgIndex];
         }
-      }, 600);
+      }, isEmergency ? 550 : 600);
 
-      // Calculate bonus from checked items
-      var checkboxes = modalForm.querySelectorAll('input[type="checkbox"]');
+      // Calculate bonus from checked items (only those with data-bonus)
+      var checkboxes = modalForm.querySelectorAll('input[type="checkbox"][data-bonus]');
       var appealDays = 0;
       var bonusCount = 0;
       var deductionCount = 0;
@@ -1015,7 +1190,7 @@
         }
       });
 
-      // Deliver verdict after churning
+      // Deliver verdict after churning (longer for emergency)
       setTimeout(function () {
         clearInterval(msgInterval);
         closeModal();
@@ -1027,7 +1202,11 @@
         appealCta.classList.remove('visible');
         appealVerdict.style.display = 'block';
 
-        if (appealDays > 0) {
+        if (isEmergency && appealDays > 0) {
+          verdictResult.className = 'verdict-result positive';
+          verdictResult.textContent = 'Emergency Override Approved';
+          verdictDetail.textContent = 'The Birthday Bureau has reviewed your emergency request and verified your attestations. The Chief Birthday Officer has personally signed off. Your additional birthday has been granted. Take care of yourself out there.';
+        } else if (appealDays > 0) {
           verdictResult.className = 'verdict-result positive';
           verdictResult.textContent = 'Appeal Granted!';
           verdictDetail.textContent = 'The Birthday Bureau has reviewed your case and found it compelling. Your appeal for additional birthday has been approved.';
@@ -1054,7 +1233,7 @@
             appealVerdict.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }, 100);
         });
-      }, 3800);
+      }, isEmergency ? 5500 : 3800);
     });
   </script>
 </body>
