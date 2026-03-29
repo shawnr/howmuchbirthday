@@ -1180,19 +1180,25 @@
         }
       }, isEmergency ? 550 : 600);
 
-      // Calculate bonus from checked items (only those with data-bonus)
+      // Calculate bonus from checked items using stepped system
       var checkboxes = modalForm.querySelectorAll('input[type="checkbox"][data-bonus]');
-      var appealDays = 0;
-      var bonusCount = 0;
-      var deductionCount = 0;
+      var positiveCount = 0;
+      var hasNegative = false;
       checkboxes.forEach(function (cb) {
         if (cb.checked) {
           var val = parseInt(cb.getAttribute('data-bonus'), 10);
-          appealDays += val;
-          if (val > 0) bonusCount++;
-          else deductionCount++;
+          if (val > 0) positiveCount++;
+          else hasNegative = true;
         }
       });
+      // Stepped bonus: 1-3 positives = +1, 4-6 = +2, 7+ = +3
+      var positiveDays = 0;
+      if (positiveCount >= 7) positiveDays = 3;
+      else if (positiveCount >= 4) positiveDays = 2;
+      else if (positiveCount >= 1) positiveDays = 1;
+      // Any negative = -1
+      var negativeDays = hasNegative ? -1 : 0;
+      var appealDays = positiveDays + negativeDays;
 
       // Deliver verdict after churning (longer for emergency)
       setTimeout(function () {
