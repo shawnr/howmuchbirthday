@@ -1,12 +1,17 @@
-# bday
+# HowMuchBirthday.com
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.12.1.
+You've been celebrating one day of birthday your whole life. That's not enough. The older you get, the more birthday you deserve.
 
-## Build & development
+This site calculates how much birthday you've earned based on your age, awards milestone bonuses for special years, and lets you file an official appeal to the Birthday Bureau for additional days.
 
-Run `grunt` for building and `grunt serve` for preview.
+## Running locally
 
-## Testing
+It's a single `index.html` with no dependencies. Open it in a browser.
 
-Running `grunt test` will run the unit tests with karma.
+## Deployment
+
+Deployed to [howmuchbirthday.com](https://howmuchbirthday.com) via GitHub Pages using GitHub Actions. Every push to `master` triggers a deploy.
+
+## License
+
+See [LICENSE](LICENSE).
