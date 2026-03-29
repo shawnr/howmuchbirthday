@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How Much Birthday Do You Deserve?</title>
+  <meta name="description" content="Find out how much birthday celebration you've earned based on your age. The more you age, the more you earn!">
+  <meta property="og:title" content="How Much Birthday Do You Deserve?">
+  <meta property="og:description" content="The older you get, the more birthday you deserve. Find out how much you've earned!">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://howmuchbirthday.com">
+  <meta property="og:image" content="https://howmuchbirthday.com/images/colorful-candles.jpg">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#x1F382;</text></svg>">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink: #ff6b9d;
+      --coral: #ff8a65;
+      --purple: #b388ff;
+      --purple-dim: #9070d0;
+      --teal: #4dd0e1;
+      --yellow: #ffd54f;
+      --white: #ffffff;
+      --off-white: #faf8f5;
+      --dark: #1a1128;
+      --dark-mid: #2d1f42;
+      --dark-light: #3d2d55;
+      --text: #e8e0f0;
+      --text-dim: #a090b8;
+      --red: #ff5252;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Banner ── */
+    .banner {
+      position: fixed;
+      top: -8px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      pointer-events: none;
+      height: 56px;
+      background: url('images/banner.png') repeat-x left top;
+      background-size: auto 56px;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+    }
+
+    /* ── Header ── */
+    .site-header {
+      text-align: center;
+      padding: 72px 20px 8px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      background: linear-gradient(135deg, var(--yellow), var(--coral), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    /* ── Main content ── */
+    .main {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
+    /* ── Input Card ── */
+    .card {
+      background: linear-gradient(160deg, var(--dark-mid), #251a3a);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-top: 0;
+      position: relative;
+      z-index: 5;
+      border: 1px solid var(--dark-light);
+    }
+
+    .card label {
+      display: block;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    input[type="date"] {
+      font-family: inherit;
+      font-size: 1.1rem;
+      padding: 14px 20px;
+      border: 2px solid var(--dark-light);
+      border-radius: 12px;
+      background: var(--dark);
+      color: var(--text);
+      width: 100%;
+      transition: border-color 0.3s;
+      -webkit-appearance: none;
+    }
+
+    input[type="date"]:focus {
+      outline: none;
+      border-color: var(--purple);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7) sepia(0.5) hue-rotate(220deg);
+    }
+
+    /* ── Privacy disclaimer (inline) ── */
+    .privacy-inline {
+      margin-top: 12px;
+      font-size: 0.78rem;
+      color: #706088;
+      line-height: 1.5;
+    }
+
+    /* ── About Section (always at bottom of stack) ── */
+    .about {
+      margin-top: 16px;
+      padding: 24px;
+      background: linear-gradient(160deg, var(--dark-mid), #221838);
+      border-radius: 16px;
+      border: 1px solid var(--dark-light);
+    }
+
+    .about h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--yellow);
+      margin-bottom: 10px;
+    }
+
+    .about p {
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    .about p:last-child { margin-bottom: 0; }
+
+    /* ── Result Card ── */
+    .result-card {
+      background: linear-gradient(160deg, var(--dark-mid), #2a1840);
+      border-radius: 16px;
+      padding: 32px 24px;
+      margin-top: 16px;
+      border: 1px solid var(--dark-light);
+      text-align: center;
+      display: none;
+    }
+
+    .result-card.visible {
+      display: block;
+      animation: cardIn 0.5s ease forwards;
+    }
+
+    .result-eyebrow {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .result-amount {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--yellow), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+
+    .result-of {
+      font-size: 1.2rem;
+      color: var(--text-dim);
+    }
+
+    .result-age {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      padding-top: 16px;
+      border-top: 1px solid var(--dark-light);
+    }
+
+    /* ── Milestone Pill ── */
+    .milestone-card {
+      margin-top: 16px;
+      border-radius: 16px;
+      padding: 20px 24px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(179, 136, 255, 0.15), rgba(255, 107, 157, 0.15));
+      border: 1px solid rgba(179, 136, 255, 0.25);
+      display: none;
+    }
+
+    .milestone-card.visible {
+      display: block;
+      animation: cardIn 0.5s ease 0.15s forwards;
+      opacity: 0;
+    }
+
+    .milestone-icon { font-size: 2rem; margin-bottom: 6px; }
+    .milestone-label { font-size: 1.1rem; font-weight: 700; color: var(--purple); }
+    .milestone-bonus { font-size: 0.9rem; color: var(--text-dim); margin-top: 2px; }
+
+    /* ── Total Card ── */
+    .total-card {
+      margin-top: 16px;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      background: linear-gradient(160deg, var(--dark-light), var(--dark-mid));
+      border: 1px solid rgba(255, 213, 79, 0.2);
+      display: none;
+    }
+
+    .total-card.visible {
+      display: block;
+      animation: cardIn 0.5s ease 0.3s forwards;
+      opacity: 0;
+    }
+
+    .total-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .total-amount {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--yellow), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Appeal CTA ── */
+    .appeal-cta {
+      margin-top: 16px;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      background: linear-gradient(160deg, #2a1845, #1e1235);
+      border: 1px dashed rgba(179, 136, 255, 0.35);
+      cursor: pointer;
+      display: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .appeal-cta.visible {
+      display: block;
+      animation: cardIn 0.5s ease 0.45s forwards;
+      opacity: 0;
+    }
+
+    .appeal-cta:hover {
+      border-color: var(--purple);
+      background: linear-gradient(160deg, #321e52, #251840);
+    }
+
+    .appeal-cta-eyebrow {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .appeal-cta-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Appeal Verdict (replaces CTA after submit) ── */
+    .appeal-verdict {
+      margin-top: 16px;
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      background: linear-gradient(160deg, #2a1845, #1e1235);
+      border: 1px solid rgba(179, 136, 255, 0.3);
+      display: none;
+    }
+
+    .appeal-verdict.visible {
+      display: block;
+      animation: cardIn 0.5s ease forwards;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .verdict-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .verdict-result {
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .verdict-result.positive {
+      background: linear-gradient(135deg, var(--yellow), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .verdict-result.negative {
+      background: linear-gradient(135deg, var(--red), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .verdict-detail {
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+
+    .verdict-new-total {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--dark-light);
+    }
+
+    .verdict-new-total-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 2px;
+    }
+
+    .verdict-new-total-amount {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--yellow), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .verdict-retry {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--purple-dim);
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .verdict-retry:hover { color: var(--purple); }
+
+    /* ── Modal Overlay ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(10, 6, 18, 0.85);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+
+    .modal {
+      background: linear-gradient(170deg, var(--dark-mid) 0%, #1e1432 100%);
+      border: 1px solid var(--dark-light);
+      border-radius: 20px;
+      max-width: 480px;
+      width: 100%;
+      margin: 40px auto;
+      padding: 32px 24px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+
+    .modal-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    /* ── Toggle questions ── */
+    .question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(61, 45, 85, 0.5);
+    }
+
+    .question:last-child { border-bottom: none; }
+
+    .question-text {
+      font-size: 0.92rem;
+      color: var(--text);
+      flex: 1;
+    }
+
+    /* Toggle switch */
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--dark);
+      border-radius: 12px;
+      border: 1px solid var(--dark-light);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      background: var(--text-dim);
+      border-radius: 50%;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .toggle input:checked + .toggle-track {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      border-color: transparent;
+    }
+
+    .toggle input:checked + .toggle-track::after {
+      transform: translateX(20px);
+      background: var(--white);
+    }
+
+    /* Submit button */
+    .modal-submit {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      margin-top: 24px;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: opacity 0.3s, transform 0.1s;
+    }
+
+    .modal-submit:hover { opacity: 0.9; }
+    .modal-submit:active { transform: scale(0.98); }
+
+    /* Churning animation */
+    .churning {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .churning.active { display: block; }
+
+    .churning-spinner {
+      font-size: 2.5rem;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .churning-text {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      margin-top: 12px;
+    }
+
+    .modal-form.hidden { display: none; }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-top: 40px;
+    }
+
+    .footer-privacy {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 20px 24px;
+      font-size: 0.78rem;
+      color: #504068;
+      line-height: 1.6;
+    }
+
+    .footer-image {
+      display: block;
+      width: 100%;
+      height: 280px;
+      background: url('images/colorful-candles.jpg') center bottom / cover no-repeat;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+    }
+
+    .footer-text {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      right: 0;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 480px) {
+      .banner { top: -4px; }
+      .site-header { padding: 52px 20px 6px; }
+      h1 { font-size: 1.7rem; }
+      .result-amount { font-size: 2.2rem; }
+      .total-amount { font-size: 1.6rem; }
+      .card { padding: 24px 20px; }
+      .footer-image { height: 200px; }
+      .modal { padding: 28px 18px; margin: 20px auto; }
+    }
+
+    @media (min-width: 768px) {
+      .site-header { padding: 80px 20px 8px; }
+      h1 { font-size: 2.6rem; }
+      .footer-image { height: 340px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner" role="presentation"></div>
+
+  <header class="site-header">
+    <h1>How Much Birthday<br>Do You Deserve?</h1>
+    <div class="subtitle">The more you age, the more you earn!</div>
+  </header>
+
+  <main class="main">
+    <div class="card">
+      <label for="birthday">When were you born?</label>
+      <input type="date" id="birthday" aria-label="Your birth date">
+      <div class="privacy-inline">This site does not collect or store any data. Any information you enter on this site remains on the device you are using now. Your privacy is protected.</div>
+    </div>
+
+    <div class="result-card" id="result" aria-live="polite">
+      <div class="result-eyebrow">You have earned</div>
+      <div class="result-amount" id="resultAmount"></div>
+      <div class="result-of">of birthday</div>
+      <div class="result-age" id="resultAge"></div>
+    </div>
+
+    <div class="milestone-card" id="milestone">
+      <div class="milestone-icon" id="milestoneIcon"></div>
+      <div class="milestone-label" id="milestoneText"></div>
+      <div class="milestone-bonus" id="milestoneDetail"></div>
+    </div>
+
+    <div class="total-card" id="total">
+      <div class="total-label">Your total birthday this year</div>
+      <div class="total-amount" id="totalAmount"></div>
+    </div>
+
+    <!-- Appeal CTA -->
+    <div class="appeal-cta" id="appealCta" role="button" tabindex="0">
+      <div class="appeal-cta-eyebrow">Do you believe you are entitled to more days of birthday this year?</div>
+      <div class="appeal-cta-text">Click here to submit an appeal</div>
+    </div>
+
+    <!-- Appeal Verdict (shown after modal submit) -->
+    <div class="appeal-verdict" id="appealVerdict">
+      <div class="verdict-eyebrow">Appeal Verdict</div>
+      <div class="verdict-result" id="verdictResult"></div>
+      <div class="verdict-detail" id="verdictDetail"></div>
+      <div class="verdict-new-total" id="verdictNewTotal">
+        <div class="verdict-new-total-label">Revised birthday total</div>
+        <div class="verdict-new-total-amount" id="verdictNewTotalAmount"></div>
+      </div>
+      <button class="verdict-retry" id="verdictRetry">File another appeal</button>
+    </div>
+
+    <div class="about">
+      <h2>Wait, what?</h2>
+      <p>All your life, you've probably only been celebrating one day of birthday. But you actually deserve more birthday for every year you've been alive.</p>
+      <p>You've done more, seen more, and become a little slower every year. So have all your friends. And most of them live much further away than ever before. How could you possibly celebrate the growing body of work that is your life in just one 24-hour period?</p>
+      <p>Use the calculator above to find out how much birthday you've truly earned, and make sure you get all the celebration you deserve.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-privacy">
+      Your birthday data never leaves this device. All calculations happen right here in your browser. Nothing is sent to any server, stored in any database, or shared with anyone. When you close this page, the session is gone. We believe birthday intelligence is deeply personal and should remain private.
+    </div>
+    <div class="footer-image" role="presentation"></div>
+    <div class="footer-text">Made with care by the People Who Love.</div>
+  </footer>
+
+  <!-- Appeal Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" role="dialog" aria-label="Birthday Appeal Form">
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+
+      <div class="modal-form" id="modalForm">
+        <h2>Official Birthday Appeal</h2>
+        <div class="modal-subtitle">Answer honestly. The Birthday Bureau takes fraud very seriously.</div>
+
+        <div class="question">
+          <span class="question-text">1. Were you born on a holiday or leap day, thereby getting perpetually shortchanged?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="2"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">2. Did you get married, have a baby, or otherwise create a situation where your birthday will never be about you again?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="2"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">3. Have you ever blown out someone else's birthday candles?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="-2"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">4. Did you survive a major life change this year? (New job, new city, retirement, existential crisis, etc.)</span>
+          <label class="toggle"><input type="checkbox" data-bonus="1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">5. Did anyone forget YOUR birthday last year?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">6. Did you forget someone else's birthday this year?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="-1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">7. Did you do something genuinely new this year that scared you at least a little?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">8. Did you regift a present to someone else for their birthday this year?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="-1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">9. Did you have to work on your last birthday?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="2"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">10. Have you eaten an entire cake by yourself this year? (No judgment. But also yes judgment.)</span>
+          <label class="toggle"><input type="checkbox" data-bonus="-1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">11. Do you share a birthday week with someone who always makes it about themselves?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">12. Did you travel somewhere new this year?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">13. Did you help someone celebrate THEIR birthday in a meaningful way this year?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">14. This year, did you sing "Happy Birthday" off-key on purpose to ruin the moment?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="-1"><span class="toggle-track"></span></label>
+        </div>
+        <div class="question">
+          <span class="question-text">15. This year, did you sing "Happy Birthday" off-key on purpose to ENHANCE the moment?</span>
+          <label class="toggle"><input type="checkbox" data-bonus="1"><span class="toggle-track"></span></label>
+        </div>
+
+        <button class="modal-submit" id="modalSubmit">Submit Appeal to the Birthday Bureau</button>
+      </div>
+
+      <div class="churning" id="churning">
+        <div class="churning-spinner">&#x2696;&#xFE0F;</div>
+        <div class="churning-text" id="churningText">Reviewing your case...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Age Tier Calculation ──
+    function getBaseBirthday(age) {
+      if (age < 13) return { amount: '1 day', days: 1 };
+      if (age < 21) return { amount: '1 weekend', days: 2 };
+      if (age < 30) return { amount: 'a 3-day weekend', days: 3 };
+      if (age < 40) return { amount: 'a 4-day weekend', days: 4 };
+      if (age < 65) return { amount: '1 week', days: 7 };
+      if (age < 80) return { amount: '2 weeks', days: 14 };
+      if (age < 90) return { amount: '3 weeks', days: 21 };
+      if (age < 100) return { amount: '1 month', days: 30 };
+      if (age < 102) return { amount: '6 weeks', days: 42 };
+      if (age < 105) return { amount: '2 months', days: 60 };
+      if (age < 110) return { amount: '3 months', days: 90 };
+      if (age < 115) return { amount: '4 months', days: 120 };
+      if (age < 120) return { amount: '6 months', days: 180 };
+      return { amount: '12 months', days: 365 };
+    }
+
+    // ── Milestone Bonuses ──
+    function getMilestoneBonus(age) {
+      var milestones = {
+        1:   { days: 1, icon: '\u{1F382}', label: 'Your very first birthday!' },
+        5:   { days: 1, icon: '\u{1F386}', label: 'High five! Half a decade!' },
+        10:  { days: 1, icon: '\u{1F389}', label: 'Double digits!' },
+        13:  { days: 1, icon: '\u{1F60E}', label: 'Official teenager!' },
+        15:  { days: 1, icon: '\u{2728}',  label: 'Quincea\u00f1era year!' },
+        18:  { days: 2, icon: '\u{1F5FD}', label: 'Legal adult!' },
+        21:  { days: 2, icon: '\u{1F37E}', label: 'The big 21!' },
+        25:  { days: 1, icon: '\u{1F48E}', label: 'Quarter century!' },
+        30:  { days: 1, icon: '\u{1F3AF}', label: 'The dirty thirty!' },
+        35:  { days: 1, icon: '\u{1F680}', label: 'Mid-thirties milestone!' },
+        40:  { days: 3, icon: '\u{1F451}', label: 'The fabulous forty!' },
+        45:  { days: 1, icon: '\u{2B50}',  label: 'Forty-five and thriving!' },
+        50:  { days: 3, icon: '\u{1F3C6}', label: 'Half a century!' },
+        55:  { days: 1, icon: '\u{1F308}', label: 'Double nickels!' },
+        60:  { days: 1, icon: '\u{1F31E}', label: 'The sensational sixty!' },
+        65:  { days: 1, icon: '\u{1F3D6}\u{FE0F}',  label: 'Retirement age!' },
+        70:  { days: 3, icon: '\u{1F3C5}', label: 'The spectacular seventy!' },
+        75:  { days: 2, icon: '\u{1F48E}', label: 'Three quarters of a century!' },
+        80:  { days: 2, icon: '\u{1F3C6}', label: 'The extraordinary eighty!' },
+        85:  { days: 2, icon: '\u{2728}',  label: 'Eighty-five and magnificent!' },
+        90:  { days: 2, icon: '\u{1F31F}', label: 'The noble ninety!' },
+        95:  { days: 2, icon: '\u{1F387}', label: 'Ninety-five! Incredible!' },
+        100: { days: 7, icon: '\u{1F3C6}', label: 'CENTURY CLUB!' },
+      };
+
+      if (milestones[age]) return milestones[age];
+
+      if (age > 0 && age % 5 === 0) {
+        return { days: 1, icon: '\u{2B50}', label: 'Multiple of 5 milestone!' };
+      }
+
+      return null;
+    }
+
+    function formatDays(days) {
+      if (days === 1) return '1 day';
+      if (days === 7) return '1 week';
+      return days + ' days';
+    }
+
+    function formatTotalDays(days) {
+      if (days <= 7) return days + (days === 1 ? ' day' : ' days');
+      if (days < 14) return '1 week and ' + (days - 7) + ' days';
+      var weeks = Math.floor(days / 7);
+      var remainder = days % 7;
+      if (remainder === 0) return weeks + ' weeks';
+      return weeks + ' weeks and ' + remainder + (remainder === 1 ? ' day' : ' days');
+    }
+
+    // Returns the age they will be on their next upcoming birthday
+    function getNextBirthdayAge(birthDate) {
+      var today = new Date();
+      var thisYearBday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+      // If birthday has already passed this year, next birthday is next year
+      if (today > thisYearBday) {
+        return today.getFullYear() - birthDate.getFullYear() + 1;
+      }
+      return today.getFullYear() - birthDate.getFullYear();
+    }
+
+    function getOldYoung(age) {
+      return age < 40 ? 'old' : 'young';
+    }
+
+    // ── State ──
+    var currentBaseDays = 0;
+    var currentMilestoneDays = 0;
+
+    // ── DOM refs ──
+    var birthdayInput = document.getElementById('birthday');
+    var resultCard = document.getElementById('result');
+    var resultAmount = document.getElementById('resultAmount');
+    var resultAge = document.getElementById('resultAge');
+    var milestoneCard = document.getElementById('milestone');
+    var milestoneIcon = document.getElementById('milestoneIcon');
+    var milestoneText = document.getElementById('milestoneText');
+    var milestoneDetail = document.getElementById('milestoneDetail');
+    var totalCard = document.getElementById('total');
+    var totalAmount = document.getElementById('totalAmount');
+    var appealCta = document.getElementById('appealCta');
+    var appealVerdict = document.getElementById('appealVerdict');
+    var modalOverlay = document.getElementById('modalOverlay');
+    var modalClose = document.getElementById('modalClose');
+    var modalForm = document.getElementById('modalForm');
+    var modalSubmit = document.getElementById('modalSubmit');
+    var churning = document.getElementById('churning');
+    var churningText = document.getElementById('churningText');
+    var verdictResult = document.getElementById('verdictResult');
+    var verdictDetail = document.getElementById('verdictDetail');
+    var verdictNewTotalAmount = document.getElementById('verdictNewTotalAmount');
+    var verdictNewTotal = document.getElementById('verdictNewTotal');
+    var verdictRetry = document.getElementById('verdictRetry');
+
+    // Set max date to today
+    var today = new Date();
+    birthdayInput.max = today.toISOString().split('T')[0];
+
+    // ── Birthday calculation ──
+    birthdayInput.addEventListener('change', function () {
+      var val = this.value;
+      if (!val) return;
+
+      var birthDate = new Date(val + 'T00:00:00');
+      var nextAge = getNextBirthdayAge(birthDate);
+
+      if (nextAge < 1) return;
+
+      var base = getBaseBirthday(nextAge);
+      var milestone = getMilestoneBonus(nextAge);
+      var oldYoung = getOldYoung(nextAge);
+
+      currentBaseDays = base.days;
+      currentMilestoneDays = milestone ? milestone.days : 0;
+
+      resultAmount.textContent = base.amount;
+      resultAge.textContent = 'You are turning ' + nextAge + ' years ' + oldYoung + '!';
+      resultCard.classList.add('visible');
+
+      if (milestone) {
+        milestoneIcon.textContent = milestone.icon;
+        milestoneText.textContent = milestone.label;
+        milestoneDetail.textContent = '+' + formatDays(milestone.days) + ' milestone bonus!';
+        milestoneCard.classList.add('visible');
+
+        var totalDays = base.days + milestone.days;
+        totalAmount.textContent = formatTotalDays(totalDays);
+        totalCard.classList.add('visible');
+      } else {
+        milestoneCard.classList.remove('visible');
+        totalCard.classList.remove('visible');
+      }
+
+      // Show appeal CTA, hide previous verdict
+      appealCta.classList.add('visible');
+      appealVerdict.style.display = 'none';
+      appealVerdict.classList.remove('visible');
+
+      setTimeout(function () {
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    });
+
+    // ── Appeal Modal ──
+    function openModal() {
+      // Reset form
+      var checkboxes = modalForm.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function (cb) { cb.checked = false; });
+      modalForm.classList.remove('hidden');
+      churning.classList.remove('active');
+      modalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    appealCta.addEventListener('click', openModal);
+    appealCta.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', function (e) {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    verdictRetry.addEventListener('click', function () {
+      appealVerdict.style.display = 'none';
+      appealVerdict.classList.remove('visible');
+      appealCta.classList.add('visible');
+      openModal();
+    });
+
+    // ── Churning messages ──
+    var churningMessages = [
+      'Reviewing your case\u2026',
+      'Consulting the Birthday Bureau\u2026',
+      'Cross-referencing birthday records\u2026',
+      'Checking for candle fraud\u2026',
+      'Evaluating mitigating circumstances\u2026',
+      'Calculating adjustments\u2026',
+      'The Bureau is deliberating\u2026',
+      'Almost done\u2026'
+    ];
+
+    // ── Submit appeal ──
+    modalSubmit.addEventListener('click', function () {
+      modalForm.classList.add('hidden');
+      churning.classList.add('active');
+
+      // Cycle through churning messages
+      var msgIndex = 0;
+      churningText.textContent = churningMessages[0];
+      var msgInterval = setInterval(function () {
+        msgIndex++;
+        if (msgIndex < churningMessages.length) {
+          churningText.textContent = churningMessages[msgIndex];
+        }
+      }, 600);
+
+      // Calculate bonus from checked items
+      var checkboxes = modalForm.querySelectorAll('input[type="checkbox"]');
+      var appealDays = 0;
+      var bonusCount = 0;
+      var deductionCount = 0;
+      checkboxes.forEach(function (cb) {
+        if (cb.checked) {
+          var val = parseInt(cb.getAttribute('data-bonus'), 10);
+          appealDays += val;
+          if (val > 0) bonusCount++;
+          else deductionCount++;
+        }
+      });
+
+      // Deliver verdict after churning
+      setTimeout(function () {
+        clearInterval(msgInterval);
+        closeModal();
+
+        var preDays = currentBaseDays + currentMilestoneDays;
+        var finalDays = Math.max(1, preDays + appealDays);
+
+        // Hide CTA, show verdict
+        appealCta.classList.remove('visible');
+        appealVerdict.style.display = 'block';
+
+        if (appealDays > 0) {
+          verdictResult.className = 'verdict-result positive';
+          verdictResult.textContent = 'Appeal Granted!';
+          verdictDetail.textContent = 'The Birthday Bureau has reviewed your case and found it compelling. Your appeal for additional birthday has been approved.';
+        } else if (appealDays === 0) {
+          verdictResult.className = 'verdict-result positive';
+          verdictResult.textContent = 'No Change';
+          verdictDetail.textContent = 'The Birthday Bureau has reviewed your case. Your current birthday allocation stands. The Bureau encourages you to live more adventurously in the coming year.';
+          verdictNewTotal.style.display = 'none';
+        } else {
+          verdictResult.className = 'verdict-result negative';
+          verdictResult.textContent = 'Birthday Reduced';
+          verdictDetail.textContent = 'The Birthday Bureau appreciates your honesty. Unfortunately, your candor has resulted in a reduction of birthday. Let this be a lesson in cake-sharing and candle etiquette.';
+        }
+
+        if (appealDays !== 0) {
+          verdictNewTotal.style.display = '';
+          verdictNewTotalAmount.textContent = formatTotalDays(finalDays);
+        }
+
+        // Animate in
+        requestAnimationFrame(function () {
+          appealVerdict.classList.add('visible');
+          setTimeout(function () {
+            appealVerdict.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+        });
+      }, 3800);
+    });
+  </script>
+</body>
+</html>
